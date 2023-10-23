@@ -1,30 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import PromptCard from "@components/PromptCard";
 
-const PromptCardList = ({
-  prompts,
-  handleTagClick,
-  copied,
-  handleCopiedPrompt,
-}) => {
-  return (
-    <div className="mt-16 prompt_layout">
-      {prompts?.map((prompt) => (
-        <PromptCard
-          handleCopiedPrompt={handleCopiedPrompt}
-          copied={copied}
-          key={prompt?._id}
-          prompt={prompt}
-          handleTagClick={handleTagClick}
-          handleDelete={() => {}}
-          handleEdit={() => {}}
-        />
-      ))}
-    </div>
-  );
-};
+import { PromptCardList } from "./PromptCardList";
 
 const Feed = () => {
   const [search, setSearch] = useState("");
@@ -53,6 +30,19 @@ const Feed = () => {
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
+  const getFilteredPrompts = async () => {
+    const response = await fetch(`/api/prompt/filterPrompt/${search}`);
+    const real = await response.json();
+    console.log(real);
+  };
+  useEffect(() => {
+    if (search.length > 0) {
+      const timeOut = setTimeout(() => {
+        getFilteredPrompts();
+      }, 600);
+      return () => clearTimeout(timeOut);
+    }
+  }, [search]);
   return (
     <section className="feed">
       <form
@@ -63,7 +53,7 @@ const Feed = () => {
           value={search}
           onChange={handleSearchChange}
           type="text"
-          placeholder="Search a tag or username..."
+          placeholder="Search a tag or prompt..."
           required
           className="search_input peer"
         />

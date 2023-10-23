@@ -21,6 +21,9 @@ const handler = NextAuth({
     // }),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
     async session({ session }) {
       try {
         const sessionUser = await User.findOne({ email: session.user.email });

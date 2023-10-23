@@ -1,23 +1,24 @@
 import Prompt from "@models/prompt";
 import User from "@models/user";
 import { connectToDB } from "@utils/database";
-export const GET = async (req, res) => {
-  const { id } = req.query;
+
+export const GET = async (req, { params }) => {
   try {
     await connectToDB();
   } catch (err) {
     console.log(err);
   }
   try {
-    const prompt = await Prompt.findById(id);
-    const promptOwner = await User.findById(prompt?.creator);
-    const promptOwnerUsername = promptOwner?.username;
-    const promptOwnerImage = promptOwner?.image;
+    const { id } = params;
+    const prompts = await Prompt.find({
+      creator: id,
+    })
+      .populate("creator")
+      .sort({ createdAt: -1 });
+
     return new Response(
       JSON.stringify({
-        prompt,
-        promptOwnerUsername,
-        promptOwnerImage,
+        prompts,
       }),
       {
         status: 200,

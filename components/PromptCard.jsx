@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 const PromptCard = ({
@@ -11,19 +10,19 @@ const PromptCard = ({
   handleCopiedPrompt,
   copied,
 }) => {
+  const { data: session } = useSession();
+  const pathName = usePathname();
+  const router = useRouter();
+
   return (
-    <div
-      onClick={() => {
-        handleCopiedPrompt(prompt?.prompt);
-        navigator.clipboard.writeText(prompt?.prompt);
-        setTimeout(() => {
-          handleCopiedPrompt("");
-        }, 3000);
-      }}
-      className="prompt_card cursor-pointer"
-    >
+    <div className="prompt_card ">
       <div className="flex justify-between items-start gap-5">
-        <div className="flex-1 flex justify-start items-center gap-3 ">
+        <div
+          onClick={() => {
+            router.push(`/profile/${prompt?.creator?._id}`);
+          }}
+          className="flex-1 flex justify-start items-center gap-3  cursor-pointer"
+        >
           <Image
             src={prompt?.creator?.image}
             alt="profile picture"
@@ -52,7 +51,16 @@ const PromptCard = ({
           />
         </div>
       </div>
-      <p className="my-4 ml-1 font-satoshi text-sm text-gray-700">
+      <p
+        onClick={() => {
+          handleCopiedPrompt(prompt?.prompt);
+          navigator.clipboard.writeText(prompt?.prompt);
+          setTimeout(() => {
+            handleCopiedPrompt("");
+          }, 3000);
+        }}
+        className="my-4 ml-1 font-satoshi text-sm text-gray-700 cursor-pointer"
+      >
         {prompt?.prompt}
       </p>
       <div className="font-satoshi font-semibold text-base flex flex-wrap justify-start gap-2 mb-3">
@@ -67,6 +75,29 @@ const PromptCard = ({
           </span>
         ))}
       </div>
+      {session?.user?.id === prompt?.creator?._id &&
+        pathName.includes("/profile") && (
+          <div className="mt-5 flex-start gap-4 border-t border-gray-100 pt-3">
+            <p
+              className="font-inter text-sm green_gradient cursor-pointer
+          "
+              onClick={() => {
+                handleEdit(prompt?._id);
+              }}
+            >
+              Edit
+            </p>
+            <p
+              className="font-inter  bg-gradient-to-r from-amber-500  font-bold via-orange-600 to-yellow-500 bg-clip-text text-transparent text-sm cursor-pointer
+          "
+              onClick={() => {
+                handleDelete(prompt?._id);
+              }}
+            >
+              Delete
+            </p>
+          </div>
+        )}
     </div>
   );
 };

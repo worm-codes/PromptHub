@@ -1,18 +1,32 @@
 "use client";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Form from "@components/Form";
 
-const CreatePrompt = () => {
-  const { data: session } = useSession();
+const EditPrompt = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const promptId = searchParams?.get("id");
   const [post, setPost] = useState({
     prompt: "",
     header: "",
     tags: [],
     userId: "",
   });
-  const router = useRouter();
+  const getPrompt = async () => {
+    const response = await fetch(`/api/prompt/${promptId}`);
+    const { prompt } = await response.json();
+    setPost({
+      prompt: prompt.prompt,
+      header: prompt.header,
+      tags: prompt.tags,
+      userId: prompt.userId,
+    });
+  };
+  useEffect(() => {
+    if (promptId) getPrompt();
+  }, [promptId]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (e.key === "Enter") {
@@ -20,8 +34,8 @@ const CreatePrompt = () => {
     }
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/prompt/new", {
-        method: "POST",
+      const response = await fetch(`/api/prompt/${promptId}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -29,10 +43,10 @@ const CreatePrompt = () => {
           prompt: post.prompt,
           header: post.header,
           tags: post.tags,
-          userId: session?.user?.id,
+          userId: post.userId,
         }),
       });
-      console.log(response);
+
       setIsSubmitting(false);
      
     } catch (err) {
@@ -44,7 +58,7 @@ const CreatePrompt = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   return (
     <Form
-      type="Create"
+      type="Edit"
       post={post}
       setPost={setPost}
       isSubmitting={isSubmitting}
@@ -54,4 +68,4 @@ const CreatePrompt = () => {
   );
 };
 
-export default CreatePrompt;
+export default EditPrompt;

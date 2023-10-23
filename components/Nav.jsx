@@ -4,11 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signOut, signIn, useSession, getProviders } from "next-auth/react";
-
+import { useRouter } from "next/navigation";
 const Nav = () => {
   const { data: session } = useSession();
   const [providers, setProviders] = useState(null);
   const [toggleDropdown, setToggleDropdown] = useState(false);
+  const router = useRouter();
 
   const handleProviders = async () => {
     const response = await getProviders();
@@ -44,12 +45,18 @@ const Nav = () => {
               Create Post
             </Link>
             <button
-              onClick={signOut}
+              onClick={async () => {
+                try {
+                  await signOut();
+                } catch (err) {
+                  console.log(err);
+                }
+              }}
               className="outline_btn"
             >
               Sign Out
             </button>
-            <Link href="/profile">
+            <Link href={`/profile/${session?.user?.id}`}>
               <Image
                 width={37}
                 height={37}
@@ -66,7 +73,10 @@ const Nav = () => {
                 <button
                   type="button"
                   key={provider.name}
-                  onClick={() => signIn(provider.id)}
+                  onClick={async () => {
+                    await signIn(provider.id);
+                    router.push(`/profile/${session?.user?.id}`);
+                  }}
                   className="black_btn"
                 >
                   Sign in with {provider.name}
@@ -93,7 +103,7 @@ const Nav = () => {
             {toggleDropdown && (
               <div className="dropdown ">
                 <Link
-                  href="/profile"
+                  href={`/profile/${session?.user?.id}`}
                   className="dropdown_link"
                   onClick={() => {
                     setToggleDropdown(false);
@@ -112,9 +122,13 @@ const Nav = () => {
                 </Link>
                 <button
                   type="button"
-                  onClick={() => {
+                  onClick={async () => {
                     setToggleDropdown(false);
-                    signOut();
+                    try {
+                      await signOut();
+                    } catch (err) {
+                      console.log(err);
+                    }
                   }}
                   className="black_btn  w-full text-center mt-5"
                 >
@@ -130,7 +144,10 @@ const Nav = () => {
                 <button
                   type="button"
                   key={provider.name}
-                  onClick={() => signIn(provider.id)}
+                  onClick={async () => {
+                    await signIn(provider.id);
+                    router.push(`/profile/${session?.user?.id}`);
+                  }}
                   className="black_btn"
                 >
                   Sign in with {provider.name}
