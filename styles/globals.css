@@ -90,7 +90,7 @@
 }
 
 .orange_gradient {
-  @apply bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-amber-500 text-6xl font-bold via-orange-600 to-yellow-500 bg-clip-text text-transparent;
 }
 
 .green_gradient {
@@ -106,11 +106,30 @@
 }
 
 .search_input {
-  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5 font-satoshi pl-5 pr-12 text-sm shadow-lg font-medium focus:border-black focus:outline-none focus:ring-0;
+  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5 font-satoshi px-5 text-sm shadow-lg font-medium focus:border-black focus:outline-none focus:ring-0;
 }
 
 .copy_btn {
   @apply w-7 h-7 rounded-full bg-white/10 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur flex justify-center items-center cursor-pointer;
+}
+
+.tag-span{
+  @apply px-3
+                py-1
+                rounded-2xl
+                bg-green-200
+                text-green-500
+                text-sm
+                font-semibold
+                cursor-pointer
+                hover:bg-green-400
+                hover:text-white
+                transition-all
+                duration-300
+                ease-in-out
+                max-w-max
+                overflow-hidden
+              break-words;
 }
 
 .glassmorphism {
@@ -150,7 +169,7 @@
 
 /* PromptCard Component */
 .prompt_card {
-  @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter md:w-[360px] w-full h-fit;
+  @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/20 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter  md:w-[360px] w-full h-fit;
 }
 
 .flex-center {

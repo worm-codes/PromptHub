@@ -62,24 +62,7 @@ const Form = ({ type, post, setPost, isSubmitting, handleSubmit }) => {
                     tags: post.tags.filter((t) => t !== tag),
                   });
                 }}
-                className=" px-3
-                py-1
-                rounded-2xl
-                bg-green-200
-                text-green-500
-                text-sm
-                font-semibold
-                cursor-pointer
-                hover:bg-green-400
-                hover:text-white
-                transition-all
-                duration-300
-                ease-in-out
-                max-w-max
-                overflow-hidden
-            break-words
-              
-                "
+                className=" tag-span"
               >
                 #{tag}
               </span>
