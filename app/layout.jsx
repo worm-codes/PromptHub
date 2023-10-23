@@ -1,10 +1,12 @@
 import "@styles/globals.css";
 import Provider from "@components/Provider";
 import Nav from "@components/Nav";
+import Favicon from "../public/assets/images/logo.svg";
 
 export const metadata = {
   title: "PromptHub",
   description: "Discover & Share AI Prompts",
+  icons: [{ rel: "icon", url: Favicon.src }],
 };
 
 const RootLayout = ({ children }) => {

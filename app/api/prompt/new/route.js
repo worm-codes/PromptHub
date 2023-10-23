@@ -9,8 +9,7 @@ export const POST = async (req, res) => {
     console.log(err);
   }
   try {
-    console.log("test");
-    console.log(userId);
+
     const newPrompt = await Prompt.create({
       creator: userId,
       prompt,
@@ -19,7 +18,6 @@ export const POST = async (req, res) => {
     });
     try {
       const promptOwner = await User.findById(userId);
-      console.log(promptOwner);
       promptOwner?.prompts.push(newPrompt._id);
       await promptOwner?.save();
     } catch (err) {
