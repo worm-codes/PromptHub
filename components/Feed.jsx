@@ -7,6 +7,8 @@ const Feed = () => {
   const [search, setSearch] = useState("");
   const [prompts, setPrompts] = useState([]);
   const [copied, setCopied] = useState("");
+  const [tagSelect, setTagSelect] = useState("");
+  const [filteredPrompts, setFilteredPrompts] = useState([]);
 
   const handleCopiedPrompt = (prompt) => {
     setCopied(prompt);
@@ -32,17 +34,23 @@ const Feed = () => {
   };
   const getFilteredPrompts = async () => {
     const response = await fetch(`/api/prompt/filterPrompt/${search}`);
-    const real = await response.json();
-    console.log(real);
+    const { prompts } = await response.json();
+
+    setFilteredPrompts(prompts);
   };
   useEffect(() => {
     if (search.length > 0) {
       const timeOut = setTimeout(() => {
         getFilteredPrompts();
-      }, 600);
+      }, 300);
       return () => clearTimeout(timeOut);
+    } else {
+      setFilteredPrompts([]);
     }
   }, [search]);
+  const handleTagClick = (tag) => {
+    setSearch(tag);
+  };
   return (
     <section className="feed">
       <form
@@ -62,8 +70,8 @@ const Feed = () => {
         <PromptCardList
           copied={copied}
           handleCopiedPrompt={handleCopiedPrompt}
-          prompts={prompts}
-          handleTagClick={() => {}}
+          prompts={filteredPrompts?.length > 0 ? filteredPrompts : prompts}
+          handleTagClick={handleTagClick}
         />
       )}
     </section>
