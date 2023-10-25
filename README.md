@@ -1,6 +1,8 @@
-# PromptHub
+# [PromptHub](https://prompt-hub-worm-codes.vercel.app/)
 
-Welcome to **PromptHub**, a platform where you can discover and share AI prompts, making your creative process more efficient. With PromptHub, you can save time by using existing prompts or collaborate with the world by creating your own.
+**Welcome to PromptHub**, a platform where you can discover and share AI prompts, making your creative process more efficient. With PromptHub, you can save time by using existing prompts or collaborate with the world by creating your own.
+
+**You can preview the live version of this project [here](https://prompt-hub-worm-codes.vercel.app/).**
 
 ## Tech Stack
 
