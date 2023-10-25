@@ -48,7 +48,11 @@ const EditPrompt = () => {
       });
 
       setIsSubmitting(false);
-     
+      if (response.ok) {
+        router.push(`/profile/${post.userId}`);
+      } else {
+        console.log("Error");
+      }
     } catch (err) {
       console.log(err);
     } finally {
