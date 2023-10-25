@@ -20,22 +20,22 @@ const CreatePrompt = () => {
     }
     setIsSubmitting(true);
     try {
+      const data = {
+        prompt: post.prompt,
+        header: post.header,
+        tags: post.tags,
+        userId: session?.user?.id,
+      };
       const response = await fetch("/api/prompt/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          prompt: post.prompt,
-          header: post.header,
-          tags: post.tags,
-          userId: session?.user?.id,
-        }),
+        body: JSON.stringify(data),
       });
-      console.log(response);
       setIsSubmitting(false);
       if (response.ok) {
-        router.push(`/profile/${post.userId}`);
+        router.push(`/profile/${data.userId}`);
       } else {
         console.log("Error");
       }

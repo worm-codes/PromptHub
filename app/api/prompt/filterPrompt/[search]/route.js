@@ -8,7 +8,6 @@ export const GET = async (req, { params }) => {
     console.log(err);
   }
   const { search } = params;
-  console.log(search);
   try {
     const regexSearch = new RegExp(search, "i");
 

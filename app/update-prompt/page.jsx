@@ -20,7 +20,7 @@ const EditPrompt = () => {
       prompt: prompt.prompt,
       header: prompt.header,
       tags: prompt.tags,
-      userId: prompt.userId,
+      userId: prompt.creator._id,
     });
   };
   useEffect(() => {
@@ -34,22 +34,23 @@ const EditPrompt = () => {
     }
     setIsSubmitting(true);
     try {
+      const data = {
+        prompt: post.prompt,
+        header: post.header,
+        tags: post.tags,
+        userId: post.userId,
+      };
       const response = await fetch(`/api/prompt/${promptId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          prompt: post.prompt,
-          header: post.header,
-          tags: post.tags,
-          userId: post.userId,
-        }),
+        body: JSON.stringify(data),
       });
 
       setIsSubmitting(false);
       if (response.ok) {
-        router.push(`/profile/${post.userId}`);
+        router.push(`/profile/${data.userId}`);
       } else {
         console.log("Error");
       }

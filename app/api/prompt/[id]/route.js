@@ -23,7 +23,6 @@ export const GET = async (req, { params }) => {
         }
       );
     }
-
     return new Response(
       JSON.stringify({
         prompt,

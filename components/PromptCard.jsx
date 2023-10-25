@@ -51,6 +51,9 @@ const PromptCard = ({
           />
         </div>
       </div>
+      <h2 className="font-satoshi ml-1 font-semibold text-lg text-gray-900 mt-3">
+        {prompt?.header}
+      </h2>
       <p
         onClick={() => {
           handleCopiedPrompt(prompt?.prompt);
